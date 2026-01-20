@@ -39,17 +39,17 @@ with open("./test_log.txt","r") as file:
         if "]:" not in line:
             continue
         else:
-            hlavicka, sprava = line.split("]:",1)
-            if any(word in sprava.lower() for word in words):
-                month, day, time, hostname, process = hlavicka.split()
-                if "invalid user" in sprava.lower():
+            header, message = line.split("]:",1)
+            if any(word in message.lower() for word in words):
+                month, day, time, hostname, process = header.split()
+                if "invalid user" in message.lower():
                     type = "invalid"
                 else:
                     type = "valid"
                 if type == "valid":
-                    match = re.search(pattern_valid, sprava)
+                    match = re.search(pattern_valid, message)
                 elif type == "invalid":
-                    match = re.search(pattern_invalid,sprava)
+                    match = re.search(pattern_invalid,message)
 
                 if match:
                     ip = match.group(2); user = match.group(1); port=match.group(3)
