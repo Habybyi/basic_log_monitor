@@ -54,31 +54,14 @@ with open("./test_log.txt","r") as file:
 
                 if match:
                     ip = match.group(2); user = match.group(1); port=match.group(3)
-                    if ip not in pokusy_ip:
-                        pokusy_ip[ip] = 1
-                    else:
-                        pokusy_ip[ip] += 1
-                    if user not in pokusy_user:
-                        pokusy_user[user] = 1
-                    else:
-                        pokusy_user[user] += 1
                     timestamp = datetime.strptime(f"{datetime.now().year} {month} {day} {time}","%Y %b %d %H:%M:%S")
-                    if ip not in datetimes_ip:
-                        datetimes_ip[ip] = [timestamp]
-                    else:
-                        datetimes_ip[ip].append(timestamp)
                     #check_times_ip(sorted(datetimes_ip[ip]), type,user,ip)
-                    if ip not in activity:
-                        activity[ip] = [[user,[timestamp]]]
-                    elif ip in activity:
-                        for i in activity[ip]:
-                            if user in i:   
-                                #print(i[i.index(user)+1])
-                                #print(activity)
-                                i[i.index(user)+1].append(timestamp)
-                            elif user not in i:  
-                                activity[ip].append([user,[]])
-                                print(activity[ip])
+                    if user not in activity:
+                        activity[user] = [[ip,[timestamp]]]
+                    elif user in activity:
+                        for i in activity[user]:
+                            if ip in i:
+                                i[i.index(ip)+1].append(timestamp)
                     print(f"[FAILED][{type.upper()}] {month} {day} {time} - user: {user}, ip: {ip}:{port}")
                 else:
                     print("match was not found")
