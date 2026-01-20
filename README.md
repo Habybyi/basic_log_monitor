@@ -19,8 +19,8 @@
 - To learn basic log detection
 
 ## Program stracture
-`controller.py` - is main file with logic and algoritm
-`test_log.txt` - file with test logs copied from real ssh failed auth
+- `controller.py` - is main file with logic and algoritm
+- `test_log.txt` - file with test logs copied from real ssh failed auth
 
 ## ToDo
 - Create a check function wich will detect if it is a cybr attach or just scared employe
