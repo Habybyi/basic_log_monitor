@@ -5,6 +5,7 @@ from datetime import timedelta
 invalid = 0; valid = 0
 words=["failed password"]
 pokusy_ip = {}; pokusy_user = {}; datetimes_ip = {}
+activity = {}
 pattern_invalid=r"Failed password for invalid user (\w+) from (\S+) port (\d+)"; pattern_valid=r"Failed password for (\w+) from (\S+) port (\d+)"
 
 sus_act={}
@@ -67,7 +68,17 @@ with open("./test_log.txt","r") as file:
                     else:
                         datetimes_ip[ip].append(timestamp)
                     #check_times_ip(sorted(datetimes_ip[ip]), type,user,ip)
-                    
+                    if ip not in activity:
+                        activity[ip] = [[user,[timestamp]]]
+                    elif ip in activity:
+                        for i in activity[ip]:
+                            if user in i:   
+                                #print(i[i.index(user)+1])
+                                #print(activity)
+                                i[i.index(user)+1].append(timestamp)
+                            elif user not in i:  
+                                activity[ip].append([user,[]])
+                                print(activity[ip])
                     print(f"[FAILED][{type.upper()}] {month} {day} {time} - user: {user}, ip: {ip}:{port}")
                 else:
                     print("match was not found")
@@ -78,8 +89,8 @@ with open("./test_log.txt","r") as file:
                     invalid += 1
             #check_times_ip(sorted(datetimes_ip[ip]), type, user,ip)
             #print(sus_act)
-            print(datetimes_ip)
+            #print(datetimes_ip)
             #    print(f"[ALERT] Sus activiy from {ip}")
     print(valid, "VALID")
     print(invalid, "INVALID")
-    #print(datetimes_ip)
+    print(activity)
