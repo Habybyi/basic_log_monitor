@@ -27,3 +27,22 @@
 - Replace prints with my own logs
 - Implement it to CLI like a package u can use
 - Finally replace the `test_log.txt` with real log adress
+
+## Try it your self
+
+### Dependencies
+- python 3.6+
+
+### 1. Clone repository 
+```bash
+git clone https://github.com/Habybyi/basic_log_monitor.git
+cd basic_log_monitor
+```
+### 2. Make sure to have the file with logs
+```bash
+cat test_log.txt
+```
+### 3. Start the program
+```bash
+python3 controller.py
+```
