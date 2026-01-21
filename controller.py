@@ -55,13 +55,17 @@ with open("./test_log.txt","r") as file:
                 if match:
                     ip = match.group(2); user = match.group(1); port=match.group(3)
                     timestamp = datetime.strptime(f"{datetime.now().year} {month} {day} {time}","%Y %b %d %H:%M:%S")
-                    #check_times_ip(sorted(datetimes_ip[ip]), type,user,ip)
                     if user not in activity:
                         activity[user] = [[ip,[timestamp]]]
-                    elif user in activity:
+                    else:
+                        found=False
                         for i in activity[user]:
-                            if ip in i:
-                                i[i.index(ip)+1].append(timestamp)
+                            if i[0] ==ip:
+                                i[1].append(timestamp)
+                                found=True
+                                break
+                        if not found:
+                            activity[user].append([ip,[timestamp]])
                     print(f"[FAILED][{type.upper()}] {month} {day} {time} - user: {user}, ip: {ip}:{port}")
                 else:
                     print("match was not found")
@@ -70,10 +74,6 @@ with open("./test_log.txt","r") as file:
                     valid += 1
                 else:
                     invalid += 1
-            #check_times_ip(sorted(datetimes_ip[ip]), type, user,ip)
-            #print(sus_act)
-            #print(datetimes_ip)
-            #    print(f"[ALERT] Sus activiy from {ip}")
     print(valid, "VALID")
     print(invalid, "INVALID")
     print(activity)
