@@ -1,7 +1,7 @@
 #!usr/bin/env python3
 import re
 from datetime import datetime, timedelta
-import yaml
+import yaml ; import logging
 invalid = 0; valid = 0
 words=["failed password"]
 activity = {}; actual_activity={}; scores={}
@@ -11,11 +11,17 @@ pattern_invalid=r"Failed password for invalid user (\w+) from (\S+) port (\d+)";
 with open('./config.yml',"r") as f:
     config = yaml.load(f,Loader=yaml.FullLoader)
 
+logging.basicConfig(
+            filename=config['log_filename'],
+            format=config['log_format'],
+            filemode='w',
+            level=logging.DEBUG
+        )
+
 def scoring(activity, ip):
     score:int = 0; 
     users = activity['users']; times = activity['timestamps']; types=activity['types']
-    dlzka:int = len(activity['timestamps'])
-    
+    dlzka:int = len(activity['timestamps']) 
     #scoring by valid/invalid user type
     for i in activity['types']:
         match i:
@@ -28,7 +34,7 @@ def scoring(activity, ip):
     s60 = timedelta(minutes=1)
     s30 = timedelta(seconds=30)
     s10 = timedelta(seconds=10)
-    #print(dlzka)
+    print(dlzka)
     #print(times[-1] - times[0])
     dif = times[-1] - times[0]
     if (dif >= s60) and dlzka >= config['max_per_60']:
@@ -40,6 +46,10 @@ def scoring(activity, ip):
     elif dif <= s10:
         score += config['un_10'] * dlzka
     #print(score)
+    if ip in scores :
+        scores[ip] = scores[ip] + score
+    else:
+        scores[ip] = score
 
 with open("./test_log.txt","r") as file:
     for line in file:
@@ -58,8 +68,10 @@ with open("./test_log.txt","r") as file:
                 if match:
                     ip = match.group(2); user = match.group(1); port=match.group(3)
                     timestamp = datetime.strptime(f"{datetime.now().year} {month} {day} {time}","%Y %b %d %H:%M:%S")
-                    
+                   
+                    print(ip)
                     if not ip == lat_ip :
+                        #print(ip)
                         if actual_activity:
                             scoring(actual_activity[lat_ip],lat_ip)
                         lat_ip = ip
@@ -72,6 +84,7 @@ with open("./test_log.txt","r") as file:
                     actual_activity[ip]['users'].add(user)
                     actual_activity[ip]['timestamps'].append(timestamp)
                     actual_activity[ip]['types'].append(type)
+                    
                     if ip not in activity:
                         activity[ip] = {
                                 'users' : set(),
@@ -82,7 +95,7 @@ with open("./test_log.txt","r") as file:
                     activity[ip]['timestamps'].append(timestamp)
                     activity[ip]['types'].append(type)
                 
-                    print(f"[FAILED][{type.upper()}] {month} {day} {time} - user: {user}, ip: {ip}:{port}")
+                    #print(f"[FAILED][{type.upper()}] {month} {day} {time} - user: {user}, ip: {ip}:{port}")
                 else:
                     print("Match was not found")
                     continue
@@ -94,4 +107,4 @@ with open("./test_log.txt","r") as file:
         scoring(actual_activity[ip],ip)
     print(valid, "VALID")
     print(invalid, "INVALID")
-
+print(scores)

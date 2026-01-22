@@ -1,3 +1,11 @@
+#############
+## Logging ##
+#############
+
+log_filename : 'ssh-report.log'
+log_format : '%(asitime)s %(levelname)s >> %(message)s'
+
+
 ###################
 ## Score Config ##
 ##################
