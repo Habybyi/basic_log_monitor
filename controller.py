@@ -1,7 +1,6 @@
 #!usr/bin/env python3
 import re
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 import yaml
 invalid = 0; valid = 0
 words=["failed password"]
@@ -13,13 +12,40 @@ with open('./config.yml',"r") as f:
     config = yaml.load(f,Loader=yaml.FullLoader)
 
 def scoring(activity, ip):
-    print(activity['users'])
-    print(activity['timestamps'])
-    print(activity['types'])
-    print(ip)
-
-
+    score:int = 0; 
+    users = activity['users']; times = activity['timestamps']; types=activity['types']
+    dlzka:int = len(activity['timestamps'])
+    #print(activity['users'])
+    #print(activity['timestamps'])
+    #print(activity['types'])
+    #print(ip)
     
+    #scoring by valid/invalid user type
+    for i in activity['types']:
+        match i:
+            case "invalid":
+                score += int(config['sc_invalid'])
+            case "valid":
+                score += int(config['sc_valid'])
+    print(score)
+
+    #scoring by time between the last and first time
+    s60 = timedelta(minutes=1)
+    s20 = timedelta(seconds=20)
+    s10 = timedelta(seconds=10)
+    print(dlzka)
+    print(times[-1] - times[0])
+    dif = times[-1] - times[0]
+    if (dif >= s60):
+        score += 1 * dlzka
+    elif dif <= s20:
+        score += 9 * dlzka
+    elif dif <= s20:
+        score += 6 * dlzka
+    elif dif <=s60:
+        score += 3 * dlzka
+    print(score)
+
 with open("./test_log.txt","r") as file:
     for line in file:
         if "]:" not in line:
@@ -39,7 +65,6 @@ with open("./test_log.txt","r") as file:
                     timestamp = datetime.strptime(f"{datetime.now().year} {month} {day} {time}","%Y %b %d %H:%M:%S")
                     
                     if not ip == lat_ip :
-                        print(ip)
                         if actual_activity:
                             scoring(actual_activity[lat_ip],lat_ip)
                         lat_ip = ip
@@ -62,7 +87,7 @@ with open("./test_log.txt","r") as file:
                     activity[ip]['timestamps'].append(timestamp)
                     activity[ip]['types'].append(type)
                 
-                    print(f"[FAILED][{type.upper()}] {month} {day} {time} - user: {user}, ip: {ip}:{port}")
+                    #print(f"[FAILED][{type.upper()}] {month} {day} {time} - user: {user}, ip: {ip}:{port}")
                 else:
                     print("match was not found")
                     continue

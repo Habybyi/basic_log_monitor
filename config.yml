@@ -1,2 +1,6 @@
-window : minutes = 5
-limit : 3
+###################
+## Score Config ##
+##################
+
+sc_valid : 1
+sc_invalid : 4
