@@ -2,5 +2,13 @@
 ## Score Config ##
 ##################
 
+# By user validation
 sc_valid : 1
 sc_invalid : 4
+
+# By time between the first log and last log
+max_per_60 : 30 
+up_60_bot : 12  # If time is more then 60s but there are more than 'max_pred_60' reports adds 9 to score
+un_60 : 3
+un_20 : 6
+un_10 : 12

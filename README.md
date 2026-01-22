@@ -32,6 +32,7 @@
 
 ### Dependencies
 - python 3.6+
+- yaml
 
 ### 1. Clone repository 
 ```bash
