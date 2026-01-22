@@ -64,7 +64,7 @@ with open("./test_log.txt","r") as file:
                     match = re.search(pattern_invalid, message)
                 else:
                     type = "valid"
-                    mach = re.search(pattern_valid,message)
+                    match = re.search(pattern_valid,message)
                 if match:
                     ip = match.group(2); user = match.group(1); port=match.group(3)
                     timestamp = datetime.strptime(f"{datetime.now().year} {month} {day} {time}","%Y %b %d %H:%M:%S")
