@@ -34,7 +34,6 @@ def scoring(activity, ip):
     s60 = timedelta(minutes=1)
     s30 = timedelta(seconds=30)
     s10 = timedelta(seconds=10)
-    print(dlzka)
     #print(times[-1] - times[0])
     dif = times[-1] - times[0]
     if (dif >= s60) and dlzka >= config['max_per_60']:
@@ -45,11 +44,18 @@ def scoring(activity, ip):
         score += config['un_20'] * dlzka
     elif dif <= s10:
         score += config['un_10'] * dlzka
-    #print(score)
     if ip in scores :
         scores[ip] = scores[ip] + score
     else:
         scores[ip] = score
+
+    score = scores[ip]
+    if score >= 120:
+        logging.critical(f"{ip} has score {score}. Critical actions needed")
+    elif score >= 50 and score < 120:    
+        logging.warning(f"{ip} has score {score}. Maybe consider some actions")
+    elif score >= 30 and score < 50:
+        logging.info(f"{ip} has score {score}. Consider observation")
 
 with open("./test_log.txt","r") as file:
     for line in file:
@@ -69,9 +75,7 @@ with open("./test_log.txt","r") as file:
                     ip = match.group(2); user = match.group(1); port=match.group(3)
                     timestamp = datetime.strptime(f"{datetime.now().year} {month} {day} {time}","%Y %b %d %H:%M:%S")
                    
-                    print(ip)
                     if not ip == lat_ip :
-                        #print(ip)
                         if actual_activity:
                             scoring(actual_activity[lat_ip],lat_ip)
                         lat_ip = ip
@@ -95,7 +99,7 @@ with open("./test_log.txt","r") as file:
                     activity[ip]['timestamps'].append(timestamp)
                     activity[ip]['types'].append(type)
                 
-                    #print(f"[FAILED][{type.upper()}] {month} {day} {time} - user: {user}, ip: {ip}:{port}")
+                    print(f"[FAILED][{type.upper()}] {month} {day} {time} - user: {user}, ip: {ip}:{port}")
                 else:
                     print("Match was not found")
                     continue

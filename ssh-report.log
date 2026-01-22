@@ -1,0 +1,16 @@
+2026-01-22 11:59:09,495 INFO >> ::1 has score 33. Consider observation
+2026-01-22 11:59:09,501 INFO >> 5df2:2512:02e7:f841:b3f3:0796:f4bb:1242 has score 42. Consider observation
+2026-01-22 11:59:09,502 INFO >> 5df2:2512:02e7:f841:b3f3:0796:f4bb:1242 has score 49. Consider observation
+2026-01-22 11:59:09,502 WARNING >> 5df2:2512:02e7:f841:b3f3:0796:f4bb:1242 has score 56. Maybe consider some actions
+2026-01-22 11:59:09,509 INFO >> 185.156.177.42 has score 40. Consider observation
+2026-01-22 11:59:09,517 CRITICAL >> 5df2:2512:02e7:f841:b3f3:0796:f4bb:1242 has score 126. Critical actions needed
+2026-01-22 11:59:09,518 INFO >> 103.212.94.112 has score 40. Consider observation
+2026-01-22 11:59:09,519 CRITICAL >> 5df2:2512:02e7:f841:b3f3:0796:f4bb:1242 has score 147. Critical actions needed
+2026-01-22 11:59:09,526 WARNING >> 192.168.1.105 has score 70. Maybe consider some actions
+2026-01-22 11:59:09,527 INFO >> 45.12.33.19 has score 40. Consider observation
+2026-01-22 11:59:09,535 CRITICAL >> 5df2:2512:02e7:f841:b3f3:0796:f4bb:1242 has score 217. Critical actions needed
+2026-01-22 11:59:09,536 INFO >> 203.0.113.88 has score 40. Consider observation
+2026-01-22 11:59:09,539 CRITICAL >> 5df2:2512:02e7:f841:b3f3:0796:f4bb:1242 has score 252. Critical actions needed
+2026-01-22 11:59:09,543 CRITICAL >> 192.168.1.105 has score 140. Critical actions needed
+2026-01-22 11:59:09,544 INFO >> 91.200.12.4 has score 40. Consider observation
+2026-01-22 11:59:09,550 CRITICAL >> 5df2:2512:02e7:f841:b3f3:0796:f4bb:1242 has score 329. Critical actions needed

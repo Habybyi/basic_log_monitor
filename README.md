@@ -20,7 +20,9 @@
 
 ## Program stracture
 - `controller.py` - is main file with logic and algoritm
-- `test_log.txt` - file with test logs copied from real ssh failed auth
+- `test_log.txt` - file with test logs
+- `condig.yml` - config file where u can config the script
+- `ssh-report.log` - logging file if u cannot see it just run the program once
 
 ## ToDo
 - Create a check function wich will detect if it is a cybr attach or just scared employe
